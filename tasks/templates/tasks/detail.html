@@ -1,0 +1,18 @@
+<h1>{{ task.title }}</h1>
+<h1>{{ task.description }}</h1>
+<h1>{{ task.done }}</h1>
+
+<form action="{% url 'tasks:update' task.id %}" method="post">
+{% csrf_token %}
+    <fieldset>
+        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+        <label for="description">Description</label><input type="text" name="description" id="description" value="{{ task.description }}">
+        <label for="done">Done</label><input type="checkbox" name="done" id="done" value="{{ task.done }}">
+    </fieldset>
+    <input type="submit" value="Done">
+</form>
+
+<form action="{% url 'tasks:delete' task.id %}" method="POST" style=" padding-right: 4%; padding-bottom: 3%;">
+    {% csrf_token %}
+    <button value="remove" type="submit"  class="btn btn-primary" style="float: right;"><span class="glyphicon glyphicon-trash"></span> &nbsp; remove</button>
+</form>

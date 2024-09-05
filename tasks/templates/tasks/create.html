@@ -1,0 +1,16 @@
+<form action="{% url 'tasks:create' %}" method="post">
+{% csrf_token %}
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <fieldset>
+    <label for="title">Title</label><input type="text" name="title" id="title">
+    <label for="description">Description</label><input type="text" name="description" id="description">
+    </fieldset>
+
+    <input type="submit" value="Done">
+</form>
