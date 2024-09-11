@@ -3,7 +3,8 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib import messages
 
-from .models import Task
+from .models import Task, TaskCategory
+
 
 def index(request):
     latest_tasks_list = Task.objects.order_by('-id')
@@ -61,5 +62,26 @@ def delete(request, task_id):
     task.delete()
     messages.info(request, "item removed !!!")
     return HttpResponseRedirect(reverse('tasks:index'))
+
+
+def filter_by_category(request, category_id):
+    category = get_object_or_404(TaskCategory, pk=category_id)
+
+    tasks = Task.objects.filter(category=category)
+
+    context = {
+        'latest_tasks_list': tasks
+    }
+
+    return render(request, "tasks/index.html", context)
+
+
+def get_categories(request):
+    categories = TaskCategory.objects.all()
+    context = {
+        'categories': categories
+    }
+
+    return render(request, "categories/index.html", context)
 
 
